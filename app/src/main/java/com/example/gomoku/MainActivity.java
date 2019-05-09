@@ -99,18 +99,6 @@ public class MainActivity extends Activity {
         isClicked = false;
     }
 
-    private void botTurn() {
-        tvTurn.setText("Igrač 2");
-        //Toast.makeText(context,"2",Toast.LENGTH_SHORT).show();
-        isClicked=false;
-    }
-
-    private void playerTurn() {
-        tvTurn.setText("Igrač 1");
-        //Toast.makeText(context,"1",Toast.LENGTH_SHORT).show();
-        isClicked=false;
-    }
-
     private void make_a_move() {
         ivCell[xMove][yMove].setImageDrawable(drawCell[turnPlay]);
         valueCell[xMove][yMove] = turnPlay;
@@ -128,13 +116,17 @@ public class MainActivity extends Activity {
     private boolean isWinPlay() {
 
        if(prebrojavanje(turnPlay,xMove,yMove,0,1)==5){
+           drawWinMove(turnPlay,xMove,yMove,0,1);
             return true;
         }else if (prebrojavanje(turnPlay,xMove,yMove,1,0)==5){
-            return true;
+           drawWinMove(turnPlay,xMove,yMove,1,0);
+           return true;
         }else if (prebrojavanje(turnPlay,xMove,yMove,1,-1)==5){
-            return true;
+           drawWinMove(turnPlay,xMove,yMove,1,-1);
+           return true;
         }else if (prebrojavanje(turnPlay,xMove,yMove,1,1)==5){
-            return true;
+           drawWinMove(turnPlay,xMove,yMove,1,1);
+           return true;
         }else {
             return false;
         }
@@ -147,7 +139,7 @@ public class MainActivity extends Activity {
 
             r = red + smjerX;  // Provjera u specificiranom smjeru
             s = stupac + smjerY;
-            //return 2;
+
             while ( r >= 0 && r < 15 && s >= 0 && s < 15  && valueCell[r][s] == igrac ) {
                 // Polje koje provjeravamo je na ploci
                 // i sadrzi kamencic igraca koji je bio na potezu.
@@ -167,6 +159,31 @@ public class MainActivity extends Activity {
             return br;
     }
 
+    private void drawWinMove(int igrac, int red, int stupac, int smjerX, int smjerY) {
+        int r, s;    // Koordinata kamencica od kojeg pocinjemo na ploci
+
+        r = red + smjerX;  // Crtanje u specificiranom smjeru
+        s = stupac + smjerY;
+
+        ivCell[red][stupac].setImageDrawable(context.getResources().getDrawable(R.drawable.pwin));
+
+        while ( r >= 0 && r < 15 && s >= 0 && s < 15  && valueCell[r][s] == igrac ) {
+            // Polje koje crtamo je na ploci
+            // i sadrzi kamencic igraca koji je bio na potezu.
+            ivCell[r][s].setImageDrawable(context.getResources().getDrawable(R.drawable.pwin));
+            r += smjerX;  // Provjerava se slijedeci kamencic.
+            s += smjerY;
+        }
+
+        r = red - smjerX;  // Sada se provjera krece u drugom smjeru.
+        s = stupac - smjerY;
+
+        while ( r >= 0 && r < 15 && s >= 0 && s < 15 && valueCell[r][s] == igrac ) {
+            ivCell[r][s].setImageDrawable(context.getResources().getDrawable(R.drawable.pwin));
+            r -= smjerX;   // Provjerava se slijedeci kamencic u tom smjeru.
+            s -= smjerY;
+        }
+    }
 
     private void loadResources() {
         drawCell[3] = context.getResources().getDrawable(R.drawable.bg); // pozadina celije
