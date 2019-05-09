@@ -20,13 +20,14 @@ public class MainActivity extends Activity {
 
     private Drawable[] drawCell= new Drawable[4]; //0 prazno, 1 igrac jedan, 2 igrac dva, 3 pozadina
 
-    private Button btnPlay;
+    private Button btnPlay,btnUndo;
     private TextView tvTurn;
     private int[][] valueCell= new int[maxN][maxN]; // 0 nitko, 1 , 2
     private int winner_play; // 0 nitko, 1 igrac 1, 2 igrac 2
     private boolean firstMove;
     private int xMove,yMove;
     private int turnPlay;
+    private boolean undone;
 
     public MainActivity(/*Button btnPlay, TextView tvTurn*/) {
         //this.btnPlay = btnPlay;
@@ -45,10 +46,12 @@ public class MainActivity extends Activity {
 
     private void setListen() {
         btnPlay = (Button) findViewById(R.id.btnPlay);
+        btnUndo = (Button) findViewById(R.id.btnUndo);
         tvTurn = (TextView) findViewById(R.id.tvTurn);
 
         btnPlay.setText("NOVA IGRA");
         tvTurn.setText("Dotaknite NOVA IGRA za igru");
+        btnUndo.setText("Poništi zadnji potez");
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +60,25 @@ public class MainActivity extends Activity {
                 play_game();
             }
         });
+        btnUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undo();
+            }
+        });
+    }
+
+    private void undo() {
+        if (undone && winner_play!=0){
+            Toast.makeText(context,"Potez je već poništen ili je igra gotova",Toast.LENGTH_SHORT).show();
+        }else {
+            ivCell[xMove][yMove].setImageDrawable(drawCell[0]);
+            valueCell[xMove][yMove] = 0;
+            turnPlay = 3 - turnPlay;
+            tvTurn.setText("Igrač "+turnPlay);
+            isClicked = false;
+            undone = true;
+        }
     }
 
     private void init_game() {
@@ -73,38 +95,38 @@ public class MainActivity extends Activity {
 
     private void play_game() {
        turnPlay = 1;
-       if (turnPlay==1){
+        tvTurn.setText("Igrač "+turnPlay);
+        Toast.makeText(context,"Igrač "+turnPlay+" igra prvi.",Toast.LENGTH_SHORT).show();
+        isClicked = false;
+       /*if (turnPlay==1){
            Toast.makeText(context,"Igrač 1 igra prvi.",Toast.LENGTH_SHORT).show();
            playerTurn();
        } else{
            Toast.makeText(context,"Igrač 2 igra prvi",Toast.LENGTH_SHORT).show();
            botTurn();
-       }
+       }*/
     }
 
     private void botTurn() {
         tvTurn.setText("Igrač 2");
-        Toast.makeText(context,"2",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"2",Toast.LENGTH_SHORT).show();
         isClicked=false;
     }
 
     private void playerTurn() {
         tvTurn.setText("Igrač 1");
-        Toast.makeText(context,"1",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"1",Toast.LENGTH_SHORT).show();
         isClicked=false;
     }
 
     private void make_a_move() {
         ivCell[xMove][yMove].setImageDrawable(drawCell[turnPlay]);
         valueCell[xMove][yMove] = turnPlay;
+        undone = false;
         if (!isWinPlay()) {
-            if (turnPlay == 1) {
-                turnPlay = 3 - turnPlay;
-                botTurn();
-            } else {
-                turnPlay = 3 - turnPlay;
-                playerTurn();
-            }
+            turnPlay = 3 - turnPlay;
+            tvTurn.setText("Igrač "+turnPlay);
+            isClicked = false;
         }else {
             winner_play=turnPlay;
             tvTurn.setText("IGRAČ "+winner_play+" JE POBJEDNIK!");
@@ -127,7 +149,6 @@ public class MainActivity extends Activity {
     }
 
     private int prebrojavanje(int igrac, int red, int stupac, int smjerX, int smjerY) {
-        //private int prebrojavanje(int igrac, int red, int stupac, int smjerX, int smjerY){
            int br = 1;  // Broj kamencica istog igraca
 
            int r, s;    // Koordinata kamencica od kojeg pocinjemo na ploci
@@ -152,8 +173,6 @@ public class MainActivity extends Activity {
             }
 
             return br;
-        //}
-
     }
 
 
