@@ -176,7 +176,7 @@ public class MainActivity extends Activity {
         }
 
         r = red - smjerX;  // Sada se provjera krece u drugom smjeru.
-        s = stupac - smjerY;
+        s = stupac - smjerY; // aa
 
         while ( r >= 0 && r < 15 && s >= 0 && s < 15 && valueCell[r][s] == igrac ) {
             ivCell[r][s].setImageDrawable(context.getResources().getDrawable(R.drawable.pwin));
