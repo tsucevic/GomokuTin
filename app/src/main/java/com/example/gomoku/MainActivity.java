@@ -90,7 +90,6 @@ public class MainActivity extends Activity {
                 valueCell[i][j] =0;
             }
         }
-
     }
 
     private void play_game() {
@@ -98,13 +97,6 @@ public class MainActivity extends Activity {
         tvTurn.setText("Igrač "+turnPlay);
         Toast.makeText(context,"Igrač "+turnPlay+" igra prvi.",Toast.LENGTH_SHORT).show();
         isClicked = false;
-       /*if (turnPlay==1){
-           Toast.makeText(context,"Igrač 1 igra prvi.",Toast.LENGTH_SHORT).show();
-           playerTurn();
-       } else{
-           Toast.makeText(context,"Igrač 2 igra prvi",Toast.LENGTH_SHORT).show();
-           botTurn();
-       }*/
     }
 
     private void botTurn() {
