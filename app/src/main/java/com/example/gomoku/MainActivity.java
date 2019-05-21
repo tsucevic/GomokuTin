@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
     }
 
     private void undo() {
-        if (undone && winner_play!=0){
+        if (undone && isWinPlay()){
             Toast.makeText(context,"Potez je već poništen ili je igra gotova",Toast.LENGTH_SHORT).show();
         }else {
             ivCell[xMove][yMove].setImageDrawable(drawCell[0]);
@@ -95,7 +95,6 @@ public class MainActivity extends Activity {
     private void play_game() {
        turnPlay = 1;
         tvTurn.setText("Igrač "+turnPlay);
-        Toast.makeText(context,"Igrač "+turnPlay+" igra prvi.",Toast.LENGTH_SHORT).show();
         isClicked = false;
     }
 

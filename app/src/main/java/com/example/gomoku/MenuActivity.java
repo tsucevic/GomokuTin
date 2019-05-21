@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
     private Button startpvp,settings,startpve;
@@ -44,9 +45,9 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(i);
     }
     private void settings() {
-
+        Toast.makeText(this,"DISABLED",Toast.LENGTH_SHORT).show();
     }
     private void startpve() {
-
+        Toast.makeText(this,"DISABLED",Toast.LENGTH_SHORT).show();
     }
 }
